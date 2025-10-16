@@ -3,100 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Summary Test</title>
+    <title>Product Sales Dashboard</title>
     
-    <!-- Bootstrap 5 CSS from jsdelivr CDN -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--background-gradient);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .container {
-            max-width: 800px;
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
         }
         
         .card {
+            border: none;
             border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            border: none;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease-in;
         }
         
-        .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border: none;
-        }
-        
-        .card-header h1 {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 600;
-        }
-        
-        .card-body {
-            padding: 2.5rem;
-        }
-        
-        #total-sales {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #667eea;
-            text-align: center;
-            margin: 2rem 0;
-            animation: fadeInUp 0.8s ease-out;
-        }
-        
-        .sales-label {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #6c757d;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .data-table {
-            margin-top: 2rem;
-            animation: fadeIn 1s ease-out;
-        }
-        
-        .table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .table thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .table tbody tr:hover {
-            background-color: #f8f9fa;
-            transform: scale(1.01);
-            transition: all 0.2s ease;
-        }
-        
-        .badge-success {
-            background-color: #28a745;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -104,75 +49,169 @@
             }
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.5rem;
         }
         
-        .loading {
+        .total-sales-card {
+            background: linear-gradient(135deg, #50c878 0%, #2ecc71 100%);
+            color: white;
             text-align: center;
-            padding: 2rem;
-            color: #6c757d;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
         }
         
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
+        .total-sales-card h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.9;
         }
         
-        .footer-info {
+        .total-sales-card .amount {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        #product-sales {
+            margin-bottom: 0;
+        }
+        
+        #product-sales thead {
+            background-color: #f8f9fa;
+        }
+        
+        #product-sales thead th {
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: #495057;
+            padding: 15px;
+        }
+        
+        #product-sales tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        #product-sales tbody tr:hover {
+            background-color: #f1f3f5;
+            transform: scale(1.01);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        #product-sales tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .sales-amount {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .icon-product {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .icon-dollar {
+            color: var(--secondary-color);
+            margin-right: 5px;
+        }
+        
+        .header-title {
             text-align: center;
-            margin-top: 2rem;
-            color: #6c757d;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header-title p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .badge-count {
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
             font-size: 0.9rem;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-title">
+            <h1><i class="fas fa-chart-line"></i> Product Sales Dashboard</h1>
+            <p>Real-time sales analytics and reporting</p>
+        </div>
+        
+        <!-- Total Sales Card -->
+        <div class="total-sales-card">
+            <h2><i class="fas fa-dollar-sign"></i> Total Sales</h2>
+            <div class="amount" id="total-sales">0</div>
+            <small>Across all products</small>
+        </div>
+        
+        <!-- Product Sales Table -->
         <div class="card">
             <div class="card-header">
-                <h1>📊 Sales Summary Dashboard</h1>
+                <i class="fas fa-table"></i> Product Sales Breakdown
+                <span class="badge-count" id="product-count">0 Products</span>
             </div>
-            <div class="card-body">
-                <div class="sales-label">Total Sales</div>
-                <div id="total-sales">Loading...</div>
-                
-                <div class="text-center">
-                    <span class="badge badge-success">Data Loaded Successfully</span>
-                </div>
-                
-                <div class="data-table">
-                    <h5 class="mb-3">Product Breakdown</h5>
-                    <table class="table table-hover">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="product-sales">
                         <thead>
                             <tr>
-                                <th>Product</th>
-                                <th class="text-end">Sales ($)</th>
+                                <th scope="col" style="width: 60%;">
+                                    <i class="fas fa-box icon-product"></i> Product Name
+                                </th>
+                                <th scope="col" style="width: 40%; text-align: right;">
+                                    <i class="fas fa-dollar-sign icon-dollar"></i> Sales
+                                </th>
                             </tr>
                         </thead>
-                        <tbody id="product-table-body">
-                            <!-- Data will be inserted here -->
+                        <tbody>
+                            <!-- Data will be inserted here by JavaScript -->
                         </tbody>
                     </table>
-                </div>
-                
-                <div class="footer-info">
-                    <small>Data sourced from data.csv • Processed client-side</small>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap 5 JS Bundle from jsdelivr CDN -->
+    
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // CSV data embedded as a data URI
+        /**
+         * Product Sales Dashboard Application
+         * Parses CSV data and displays product sales information
+         */
+        
+        // CSV data embedded directly
         const csvData = `Product,Sales
 Widget A,1500
 Widget B,2300
@@ -180,43 +219,31 @@ Widget C,1800`;
 
         /**
          * Parse CSV data into an array of objects
-         * @param {string} csv - The CSV string to parse
-         * @returns {Array} Array of objects representing the CSV data
+         * @param {string} csv - Raw CSV string
+         * @returns {Array} Array of product objects
          */
         function parseCSV(csv) {
             const lines = csv.trim().split('\n');
-            const headers = lines[0].split(',').map(h => h.trim());
-            const data = [];
+            const headers = lines[0].split(',');
+            const result = [];
             
             for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',').map(v => v.trim());
-                const row = {};
+                const obj = {};
+                const currentLine = lines[i].split(',');
                 
-                headers.forEach((header, index) => {
-                    row[header] = values[index];
-                });
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j].trim()] = currentLine[j].trim();
+                }
                 
-                data.push(row);
+                result.push(obj);
             }
             
-            return data;
+            return result;
         }
-
-        /**
-         * Calculate the sum of the Sales column
-         * @param {Array} data - Array of product objects
-         * @returns {number} Total sales sum
-         */
-        function calculateTotalSales(data) {
-            return data.reduce((total, item) => {
-                const sales = parseFloat(item.Sales) || 0;
-                return total + sales;
-            }, 0);
-        }
-
+        
         /**
          * Format number as currency
-         * @param {number} amount - The amount to format
+         * @param {number} amount - Number to format
          * @returns {string} Formatted currency string
          */
         function formatCurrency(amount) {
@@ -227,65 +254,105 @@ Widget C,1800`;
                 maximumFractionDigits: 0
             }).format(amount);
         }
-
+        
         /**
-         * Populate the product table with data
-         * @param {Array} data - Array of product objects
+         * Render product sales table and update total
          */
-        function populateTable(data) {
-            const tableBody = document.getElementById('product-table-body');
-            tableBody.innerHTML = '';
-            
-            data.forEach(item => {
-                const row = document.createElement('tr');
-                const sales = parseFloat(item.Sales) || 0;
-                
-                row.innerHTML = `
-                    <td><strong>${item.Product}</strong></td>
-                    <td class="text-end">${formatCurrency(sales)}</td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            // Add total row
-            const totalRow = document.createElement('tr');
-            totalRow.style.borderTop = '2px solid #667eea';
-            totalRow.style.fontWeight = 'bold';
-            totalRow.innerHTML = `
-                <td>TOTAL</td>
-                <td class="text-end">${formatCurrency(calculateTotalSales(data))}</td>
-            `;
-            tableBody.appendChild(totalRow);
-        }
-
-        /**
-         * Main function to process data and update the UI
-         */
-        function processData() {
+        function renderSalesData() {
             try {
-                // Parse the CSV data
-                const parsedData = parseCSV(csvData);
+                // Parse CSV data
+                const products = parseCSV(csvData);
+                
+                // Get table body element
+                const tbody = document.querySelector('#product-sales tbody');
+                
+                // Clear existing rows
+                tbody.innerHTML = '';
                 
                 // Calculate total sales
-                const totalSales = calculateTotalSales(parsedData);
+                let totalSales = 0;
                 
-                // Update the #total-sales element with just the number
+                // Populate table with product data
+                products.forEach((product, index) => {
+                    const sales = parseFloat(product.Sales);
+                    totalSales += sales;
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="product-name">
+                            <i class="fas fa-cube icon-product"></i>
+                            ${product.Product}
+                        </td>
+                        <td class="sales-amount" style="text-align: right;">
+                            ${formatCurrency(sales)}
+                        </td>
+                    `;
+                    
+                    // Add animation delay for each row
+                    row.style.animation = `fadeIn 0.5s ease-in ${index * 0.1}s both`;
+                    
+                    tbody.appendChild(row);
+                });
+                
+                // Update total sales display
                 const totalSalesElement = document.getElementById('total-sales');
-                totalSalesElement.textContent = totalSales;
+                totalSalesElement.textContent = totalSales.toFixed(2);
                 
-                // Populate the product table
-                populateTable(parsedData);
+                // Update product count
+                const productCountElement = document.getElementById('product-count');
+                productCountElement.textContent = `${products.length} Product${products.length !== 1 ? 's' : ''}`;
                 
-                console.log('Data processed successfully');
-                console.log('Total Sales:', totalSales);
-                console.log('Parsed Data:', parsedData);
+                // Animate total sales number
+                animateValue(totalSalesElement, 0, totalSales, 1000);
                 
             } catch (error) {
-                console.error('Error processing data:', error);
-                document.getElementById('total-sales').textContent = 'Error loading data';
+                console.error('Error rendering sales data:', error);
+                
+                // Display error message
+                const tbody = document.querySelector('#product-sales tbody');
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="text-center text-danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Error loading sales data. Please refresh the page.
+                        </td>
+                    </tr>
+                `;
             }
         }
-
-        // Execute when DOM is fully loaded
-        if (document.readyState
+        
+        /**
+         * Animate number counting up
+         * @param {HTMLElement} element - Element to animate
+         * @param {number} start - Starting value
+         * @param {number} end - Ending value
+         * @param {number} duration - Animation duration in ms
+         */
+        function animateValue(element, start, end, duration) {
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOutQuad = progress * (2 - progress);
+                const current = start + (end - start) * easeOutQuad;
+                
+                element.textContent = current.toFixed(2);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+        
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            renderSalesData();
+        });
+    </script>
+</body>
+</html>
